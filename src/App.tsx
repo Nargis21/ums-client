@@ -1,9 +1,10 @@
+import MainLayout from "./components/layouts/MainLayout"
 
 function App() {
 
   return (
     <>
-      <h1>UMS</h1>
+      <MainLayout />
     </>
   )
 }
