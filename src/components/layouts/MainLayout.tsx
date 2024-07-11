@@ -1,6 +1,7 @@
 import { Layout, Menu } from "antd";
 import { Outlet } from "react-router-dom";
-import { adminSidebarItems } from "../../routes/adminRoutes";
+import { adminPaths } from "../../routes/adminRoutes";
+import { sidebarItemsGenerator } from "../../utils/sidebarItemsGenerator";
 const { Header, Content, Footer, Sider } = Layout;
 
 const MainLayout = () => {
@@ -19,7 +20,7 @@ const MainLayout = () => {
                 <div style={{ color: "white", height: '4rem', display: 'flex', justifyContent: "center", alignItems: "center" }}>
                     <h1>PH University</h1>
                 </div>
-                <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} items={adminSidebarItems} />
+                <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} items={sidebarItemsGenerator(adminPaths)} />
             </Sider>
             <Layout>
                 <Header style={{ padding: 0 }} />
