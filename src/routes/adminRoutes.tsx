@@ -3,10 +3,17 @@ import AdminDashboard from "../pages/admin/AdminDashboard";
 import CreateAdmin from "../pages/admin/CreateAdmin";
 import CreateFaculty from "../pages/admin/CreateFaculty";
 import CreateStudent from "../pages/admin/CreateStudent";
+import { NavLink } from "react-router-dom";
 
 type TRoute = {
     path: string,
     element: ReactNode
+}
+
+type TSidebarItem = {
+    key: string,
+    label: ReactNode,
+    children?: TSidebarItem[]
 }
 
 export const adminPaths = [
@@ -37,6 +44,31 @@ export const adminPaths = [
     }
 ]
 
+//* programmatically sidebar items
+export const adminSidebarItems = adminPaths.reduce((acc: TSidebarItem[], item) => {
+
+    if (item.name && item.path) {
+        acc.push({
+            key: item.name,
+            label: <NavLink to={`/admin/${item.path}`}>{item.name}</NavLink>
+        })
+    }
+
+    if (item.children) {
+        acc.push({
+            key: item.name,
+            label: item.name,
+            children: item.children.map((child) => ({
+                key: child.name,
+                label: <NavLink to={`/admin/${child.path}`}>{child.name}</NavLink>,
+            }))
+        })
+    }
+
+
+    return acc
+}, [])
+
 //* programmatically routes
 export const adminRoutes = adminPaths.reduce((acc: TRoute[], item) => {
     if (item.path && item.element) {
@@ -55,6 +87,33 @@ export const adminRoutes = adminPaths.reduce((acc: TRoute[], item) => {
     }
     return acc
 }, [])
+
+//* Hard Coded Sidebar Items
+// const items: MenuProps['items'] = [
+//     {
+//         key: 'Dashboard',
+//         label: <NavLink to={'/admin/dashboard'}>Dashboard</NavLink>
+//     },
+//     {
+//         key: 'User Management',
+//         label: 'User Management',
+//         children: [
+//             {
+//                 key: 'Create Admin',
+//                 label: <NavLink to={'/admin/create-admin'}>Create Admin</NavLink>
+//             },
+//             {
+//                 key: 'Create Student',
+//                 label: <NavLink to={'/admin/create-faculty'}>Create Faculty</NavLink>
+//             },
+//             {
+//                 key: 'Create Faculty',
+//                 label: <NavLink to={'/admin/create-student'}>Create Student</NavLink>
+//             },
+//         ]
+//     },
+// ]
+
 
 //* Hard Coded Routes
 // export const adminRoutes = [
