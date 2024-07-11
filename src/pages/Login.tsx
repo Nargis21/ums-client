@@ -5,6 +5,11 @@ import { verifyToken } from "../utils/verifyToken";
 import { useAppDispatch } from "../redux/hook";
 import { setUser } from "../redux/features/auth/authSlice";
 
+type TFormData = {
+    userId: string,
+    password: string
+}
+
 const Login = () => {
     const { register, handleSubmit } = useForm({
         defaultValues: {
@@ -19,7 +24,7 @@ const Login = () => {
     console.log('data =>', data);
     console.log('error =>', error);
 
-    const onSubmit = async (data) => {
+    const onSubmit = async (data: TFormData) => {
         const userInfo = {
             id: data.userId,
             password: data.password
