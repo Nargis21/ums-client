@@ -9,6 +9,7 @@ import {
 import { RootState } from "../store";
 import { logout, setUser } from "../features/auth/authSlice";
 import { toast } from "sonner";
+import { TResponse } from "../../types/globals";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:5000/api/v1",
@@ -27,10 +28,10 @@ const baseQueryWithRefreshToken: BaseQueryFn<
   BaseQueryApi,
   DefinitionType
 > = async (args, api, extraOptions): Promise<any> => {
-  let result = await baseQuery(args, api, extraOptions);
+  let result = (await baseQuery(args, api, extraOptions)) as TResponse;
 
   if (result.error?.status === 404) {
-    toast.error("User not found", { duration: 2000 });
+    toast.error(result?.error?.data?.message, { duration: 2000 });
   }
 
   if (result.error?.status === 401) {
@@ -42,7 +43,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
     if (data?.data?.accessToken) {
       const user = (api.getState() as RootState).auth.user;
       api.dispatch(setUser({ user, token: data.data.accessToken }));
-      result = await baseQuery(args, api, extraOptions);
+      result = (await baseQuery(args, api, extraOptions)) as TResponse;
     } else {
       api.dispatch(logout());
     }
