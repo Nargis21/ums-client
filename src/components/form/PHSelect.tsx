@@ -13,13 +13,15 @@ const PHSelect = ({ label, name, options }: TSelectProps) => {
         <div style={{ marginBottom: "20px" }}>
             <Controller
                 name={name}
-                render={({ field }) =>
+                render={({ field, fieldState: { error } }) =>
                     <Form.Item label={label}>
                         <Select
+                            size="large"
                             {...field}
                             style={{ width: "100%" }}
                             options={options}
                         />
+                        {error && <p style={{ color: 'red', marginTop: '2px' }}>{error.message}</p>}
                     </Form.Item>
                 }
             />
