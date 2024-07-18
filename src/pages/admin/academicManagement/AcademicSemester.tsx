@@ -1,68 +1,72 @@
 import { Table, TableColumnsType, TableProps } from "antd";
 import { useGetAllSemestersQuery } from "../../../redux/features/admin/academicManagement.api";
 import { TAcademicSemester } from "../../../types/academicManagement.type";
+import { useState } from "react";
+import { TQueryParams } from "../../../types";
 
 const AcademicSemester = () => {
 
-    const { data: semesterData } = useGetAllSemestersQuery(undefined)
-    console.log(semesterData);
+    const [params, setParams] = useState<TQueryParams[] | undefined>(undefined)
+
+    const { data: semesterData, isFetching } = useGetAllSemestersQuery(params)
     const tableData = semesterData?.data?.map(({ _id, name, year, startMonth, endMonth }) => ({
-        _id, name, year, startMonth, endMonth
+        key: _id, name, year, startMonth, endMonth
     }))
 
-    type TTableData = Pick<TAcademicSemester, '_id' | 'name' | 'year' | 'startMonth' | 'endMonth'>
+    type TTableData = Pick<TAcademicSemester, 'name' | 'year' | 'startMonth' | 'endMonth'>
 
     const columns: TableColumnsType<TTableData> = [
         {
             title: 'Name',
+            key: 'Name',
             dataIndex: 'name',
             showSorterTooltip: { target: 'full-header' },
             filters: [
                 {
-                    text: 'Joe',
-                    value: 'Joe',
+                    text: 'Autumn',
+                    value: 'Autumn',
                 },
                 {
-                    text: 'Jim',
-                    value: 'Jim',
+                    text: 'Summer',
+                    value: 'Summer',
                 },
                 {
-                    text: 'Submenu',
-                    value: 'Submenu',
-                    children: [
-                        {
-                            text: 'Green',
-                            value: 'Green',
-                        },
-                        {
-                            text: 'Black',
-                            value: 'Black',
-                        },
-                    ],
-                },
+                    text: 'Fall',
+                    value: 'Fall',
+                }
             ],
         },
         {
             title: 'Year',
+            key: 'Year',
             dataIndex: 'year',
         },
         {
             title: 'Start Month',
+            key: 'Start Month',
             dataIndex: 'startMonth',
         },
         {
             title: 'End Month',
+            key: 'End Month',
             dataIndex: 'endMonth',
         },
     ];
 
-    const onChange: TableProps<TTableData>['onChange'] = (filters) => {
-        console.log(filters);
+    const onChange: TableProps<TTableData>['onChange'] = (_pagination, filters, _sorter, extra) => {
+        if (extra.action === 'filter') {
+            const queryParams: TQueryParams[] = []
+            filters.name?.forEach((item) => (
+                queryParams.push({ name: 'name', value: item })
+            ))
+            setParams(queryParams)
+        }
     };
 
     return (
         <Table
             columns={columns}
+            loading={isFetching}
             dataSource={tableData}
             onChange={onChange}
             showSorterTooltip={{ target: 'sorter-icon' }}
