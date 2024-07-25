@@ -56,7 +56,7 @@ const AcademicSemester = () => {
     const onChange: TableProps<TTableData>['onChange'] = (_pagination, filters, _sorter, extra) => {
         if (extra.action === 'filter') {
             const queryParams: TQueryParams[] = []
-            filters.name?.forEach((item) => (
+            filters.Name?.forEach((item) => (
                 queryParams.push({ name: 'name', value: item })
             ))
             setParams(queryParams)
