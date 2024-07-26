@@ -18,7 +18,6 @@ const CreateAcademicFaculty = () => {
         const facultyData = {
             name: data.name,
         }
-        console.log(facultyData);
         try {
             const res = await addAcademicFaculty(facultyData) as TResponse<TAcademicFaculty>
             if (res.error) {

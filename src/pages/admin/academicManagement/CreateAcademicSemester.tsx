@@ -32,7 +32,6 @@ const CreateAcademicSemester = () => {
             startMonth: data.startMonth,
             endMonth: data.endMonth
         }
-        console.log(semesterData);
         try {
             const res = await addAcademicSemester(semesterData) as TResponse<TAcademicSemester>
             if (res.error) {
