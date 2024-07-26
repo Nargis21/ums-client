@@ -38,20 +38,10 @@ const academicManagementApi = baseApi.injectEndpoints({
       }),
     }),
     getAllFaculties: builder.query({
-      query: (args) => {
-        const params = new URLSearchParams();
-        if (args) {
-          args.forEach((item: TQueryParams) => {
-            params.append(item.name, item.value as string);
-          });
-        }
-
-        return {
-          url: "/academic-faculties",
-          method: "GET",
-          params: params,
-        };
-      },
+      query: () => ({
+        url: "/academic-faculties",
+        method: "GET",
+      }),
       transformResponse: (response: TResponseRedux<TAcademicFaculty[]>) => {
         return {
           data: response.data,
@@ -98,5 +88,11 @@ const academicManagementApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetAllSemestersQuery, useAddAcademicSemesterMutation } =
-  academicManagementApi;
+export const {
+  useGetAllSemestersQuery,
+  useAddAcademicSemesterMutation,
+  useGetAllDepartmentsQuery,
+  useAddAcademicDepartmentMutation,
+  useGetAllFacultiesQuery,
+  useAddAcademicFacultyMutation,
+} = academicManagementApi;

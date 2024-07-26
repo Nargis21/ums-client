@@ -28,7 +28,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
   BaseQueryApi,
   DefinitionType
 > = async (args, api, extraOptions): Promise<any> => {
-  let result = (await baseQuery(args, api, extraOptions)) as TResponse;
+  let result = (await baseQuery(args, api, extraOptions)) as TResponse<any>;
 
   if (result.error?.status === 404) {
     toast.error(result?.error?.data?.message, { duration: 2000 });
@@ -43,7 +43,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
     if (data?.data?.accessToken) {
       const user = (api.getState() as RootState).auth.user;
       api.dispatch(setUser({ user, token: data.data.accessToken }));
-      result = (await baseQuery(args, api, extraOptions)) as TResponse;
+      result = (await baseQuery(args, api, extraOptions)) as TResponse<any>;
     } else {
       api.dispatch(logout());
     }
