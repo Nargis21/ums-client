@@ -1,7 +1,7 @@
-import { FieldValues, SubmitHandler } from "react-hook-form";
+import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
 import PHForm from "../../../components/form/PHForm";
 import PHInput from "../../../components/form/PHInput";
-import { Button, Col, Divider, Row } from "antd";
+import { Button, Col, Divider, Form, Input, Row } from "antd";
 import PHSelect from "../../../components/form/PHSelect";
 import { bloodGroupOptions, genderOptions } from "../../../constants/global";
 import PHDatePicker from "../../../components/form/PHDatePicker";
@@ -90,12 +90,14 @@ const CreateStudent = () => {
         label: item.name
     }))
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
+        console.log(data.image);
         const studentData = {
             password: 'student123',
             student: data
         }
         const formData = new FormData()
         formData.append('data', JSON.stringify(studentData))
+        formData.append('file', data.image)
         // console.log(Object.fromEntries(formData));
         addStudent(formData)
     }
@@ -121,6 +123,21 @@ const CreateStudent = () => {
                 </Col>
                 <Col span={24} md={{ span: '12' }} lg={{ span: '8' }}>
                     <PHSelect name="bloogGroup" label="Blood Group" options={bloodGroupOptions} />
+                </Col>
+                <Col span={24} md={{ span: '12' }} lg={{ span: '8' }}>
+                    <Controller
+                        name="image"
+                        render={({ field: { value, onChange, ...field } }) => (
+                            <Form.Item label='Picture'>
+                                <Input
+                                    type="file"
+                                    value={value?.fileName}
+                                    {...field}
+                                    onChange={(e) => onChange(e.target.files?.[0])}
+                                />
+                            </Form.Item>
+                        )}
+                    />
                 </Col>
             </Row>
             <Divider>Contact Info.</Divider>
