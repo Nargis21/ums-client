@@ -45,7 +45,7 @@ const CreateAcademicDepartment = () => {
             <Col span={6}>
                 <PHForm onSubmit={onSubmit} resolver={zodResolver(academicDepartmentSchema)}>
                     <PHInput label="Name" name="name" type="text" />
-                    <PHSelect label="Academic Faculty" name="academicFaculty" options={facultyOptions!} />
+                    <PHSelect label="Academic Faculty" name="academicFaculty" options={facultyOptions} />
                     <Button htmlType="submit" >Submit</Button>
                 </PHForm>
             </Col>
