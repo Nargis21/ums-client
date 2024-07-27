@@ -7,6 +7,9 @@ import { bloodGroupOptions, genderOptions } from "../../../constants/global";
 import PHDatePicker from "../../../components/form/PHDatePicker";
 import { useGetAllDepartmentsQuery, useGetAllSemestersQuery } from "../../../redux/features/admin/academicManagement.api";
 import { useAddStudentMutation } from "../../../redux/features/admin/userManagement";
+import { TStudent } from "../../../types/userManagement.type";
+import { TResponse } from "../../../types";
+import { toast } from "sonner";
 
 const studentDefaultValues = {
     name: {
@@ -54,8 +57,8 @@ const CreateStudent = () => {
         value: item._id,
         label: item.name
     }))
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        console.log(data.image);
+    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+        const toastId = toast.loading('Creating...')
         const studentData = {
             password: 'student123',
             student: data
@@ -64,7 +67,18 @@ const CreateStudent = () => {
         formData.append('data', JSON.stringify(studentData))
         formData.append('file', data.image)
         // console.log(Object.fromEntries(formData));
-        addStudent(formData)
+        try {
+            const res = await addStudent(formData) as TResponse<TStudent[]>
+            if (res.error) {
+                toast.error(res.error.data.message, { id: toastId })
+            } else {
+                toast.success('Student created!', { id: toastId })
+            }
+        }
+        catch (err) {
+            toast.error('Something Went Wrong')
+        }
+
     }
 
     return (

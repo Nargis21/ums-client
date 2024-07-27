@@ -3,8 +3,9 @@ import { useState } from "react";
 import { TQueryParams } from "../../../types";
 import { useGetAllStudentsQuery } from "../../../redux/features/admin/userManagement";
 import { TStudent } from "../../../types/userManagement.type";
+import { Link } from "react-router-dom";
 
-const StudentData = () => {
+const Students = () => {
 
     const [params, setParams] = useState<TQueryParams[]>([])
     const [page, setPage] = useState(1)
@@ -33,10 +34,12 @@ const StudentData = () => {
         {
             title: 'Action',
             key: 'x',
-            render: () => {
+            render: (item) => {
                 return (
                     <Space>
-                        <Button>Details</Button>
+                        <Link to={`/admin/students/${item.key}`}>
+                            <Button>Details</Button>
+                        </Link>
                         <Button>Update</Button>
                         <Button>Block</Button>
                     </Space>
@@ -72,4 +75,4 @@ const StudentData = () => {
     );
 };
 
-export default StudentData;
+export default Students;
