@@ -14,8 +14,8 @@ const Students = () => {
 
     const metaData = studentData?.meta
 
-    const tableData = studentData?.data?.map(({ _id, fullName, id }) => ({
-        key: _id, fullName, id
+    const tableData = studentData?.data?.map(({ _id, fullName, id, email, contactNo }) => ({
+        key: _id, fullName, id, email, contactNo
     }))
 
     type TTableData = Pick<TStudent, 'fullName' | 'id'>
@@ -32,6 +32,16 @@ const Students = () => {
             dataIndex: 'id',
         },
         {
+            title: 'Email',
+            key: 'email',
+            dataIndex: 'email',
+        },
+        {
+            title: 'Contact No.',
+            key: 'contactNo',
+            dataIndex: 'contactNo',
+        },
+        {
             title: 'Action',
             key: 'x',
             render: (item) => {
@@ -40,7 +50,9 @@ const Students = () => {
                         <Link to={`/admin/students/${item.key}`}>
                             <Button>Details</Button>
                         </Link>
-                        <Button>Update</Button>
+                        <Link to={`/admin/students/update/${item.key}`}>
+                            <Button>update</Button>
+                        </Link>
                         <Button>Block</Button>
                     </Space>
                 )
