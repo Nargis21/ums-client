@@ -5,10 +5,11 @@ type TSelectProps = {
     label: string,
     name: string,
     disabled?: boolean,
-    options: { value: string, label: string }[] | undefined
+    options: { value: string, label: string }[] | undefined,
+    mode?: 'multiple' | undefined
 }
 
-const PHSelect = ({ label, name, options, disabled }: TSelectProps) => {
+const PHSelect = ({ label, name, options, disabled, mode }: TSelectProps) => {
     return (
 
         <div style={{ marginBottom: "20px" }}>
@@ -22,6 +23,7 @@ const PHSelect = ({ label, name, options, disabled }: TSelectProps) => {
                             style={{ width: "100%" }}
                             options={options}
                             disabled={disabled}
+                            mode={mode}
                         />
                         {error && <p style={{ color: 'red', marginTop: '2px' }}>{error.message}</p>}
                     </Form.Item>
