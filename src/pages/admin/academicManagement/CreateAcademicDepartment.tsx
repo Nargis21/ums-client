@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import PHSelect from "../../../components/form/PHSelect";
 import PHInput from "../../../components/form/PHInput";
 import { academicDepartmentSchema } from "../../../schemas/academicDepartment";
-import { useAddAcademicDepartmentMutation, useGetAllFacultiesQuery } from "../../../redux/features/admin/academicManagement.api";
+import { useAddAcademicDepartmentMutation, useGetAllAcademicFacultiesQuery, } from "../../../redux/features/admin/academicManagement.api";
 import { TResponse } from "../../../types";
 import { TAcademicDepartment } from "../../../types/academicManagement.type";
 import { toast } from "sonner";
@@ -12,7 +12,7 @@ import { FieldValues, SubmitHandler } from "react-hook-form";
 
 
 const CreateAcademicDepartment = () => {
-    const { data: facultyData } = useGetAllFacultiesQuery(undefined)
+    const { data: facultyData } = useGetAllAcademicFacultiesQuery(undefined)
     const facultyOptions = facultyData?.data?.map((faculty) => ({
         value: faculty._id,
         label: faculty.name

@@ -1,10 +1,10 @@
-import { useGetAllFacultiesQuery } from "../../../redux/features/admin/academicManagement.api";
+import { useGetAllAcademicFacultiesQuery } from "../../../redux/features/admin/academicManagement.api";
 import { TAcademicFaculty } from "../../../types/academicManagement.type";
 import { Table, TableColumnsType } from "antd";
 
 const AcademicFaculty = () => {
 
-    const { data: facultyData, isFetching } = useGetAllFacultiesQuery(undefined)
+    const { data: facultyData, isFetching } = useGetAllAcademicFacultiesQuery(undefined)
     const tableData = facultyData?.data?.map(({ _id, name }) => ({
         key: _id, name
     }))
