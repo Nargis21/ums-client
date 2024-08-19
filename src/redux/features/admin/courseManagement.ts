@@ -97,6 +97,29 @@ const courseManagementApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["offeredCourse"],
     }),
+    getAllOfferedCourses: builder.query({
+      query: (args) => {
+        const params = new URLSearchParams();
+        if (args) {
+          args.forEach((item: TQueryParams) => {
+            params.append(item.name, item.value as string);
+          });
+        }
+
+        return {
+          url: "/offered-courses",
+          method: "GET",
+          params: params,
+        };
+      },
+      providesTags: ["offeredCourse"],
+      transformResponse: (response: TResponseRedux<TCourse[]>) => {
+        return {
+          data: response.data,
+          meta: response.meta,
+        };
+      },
+    }),
   }),
 });
 
@@ -109,4 +132,5 @@ export const {
   useAddFacultiesMutation,
   useGetAllCourseFacultiesQuery,
   useAddOfferedCourseMutation,
+  useGetAllOfferedCoursesQuery,
 } = courseManagementApi;
