@@ -7,7 +7,6 @@ import PHSelect from "../../../components/form/PHSelect";
 import { useGetAllFacultiesQuery } from "../../../redux/features/admin/userManagement";
 
 
-
 const Courses = () => {
 
     // const [params, setParams] = useState<TQueryParams[] | undefined>(undefined)
@@ -62,7 +61,7 @@ const Courses = () => {
     );
 };
 
-const AddFacultyModal = ({ courseId }) => {
+const AddFacultyModal = ({ courseId }: { courseId: string }) => {
     const [addFaculties] = useAddFacultiesMutation()
     const { data: faculties } = useGetAllFacultiesQuery(undefined)
     const facultiesOptions = faculties?.data?.map((faculty) => ({
