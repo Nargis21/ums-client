@@ -12,7 +12,7 @@ const PHTimePicker = ({ name, label }: TInputProps) => {
                 name={name}
                 render={({ field, fieldState: { error } }) =>
                     <Form.Item label={label}>
-                        <TimePicker use12Hours format="h:mm A" {...field} id={name} size="large" style={{ width: '100%' }} />
+                        <TimePicker format="h:mm" {...field} id={name} size="large" style={{ width: '100%' }} />
                         {error && <p style={{ color: 'red', marginTop: '2px' }}>{error.message}</p>}
                     </Form.Item>}
             />

@@ -4,19 +4,19 @@ import { FieldValues, SubmitHandler } from "react-hook-form";
 import PHSelect from "../../../components/form/PHSelect";
 import { toast } from "sonner";
 import PHInput from "../../../components/form/PHInput";
-import { useGetAllCourseFacultiesQuery, useGetAllCoursesQuery, useGetAllRegisteredSemestersQuery } from "../../../redux/features/admin/courseManagement";
+import { useAddOfferedCourseMutation, useGetAllCourseFacultiesQuery, useGetAllCoursesQuery, useGetAllRegisteredSemestersQuery } from "../../../redux/features/admin/courseManagement";
 import { TResponse } from "../../../types";
 import PHSelectWithWatch from "../../../components/form/PHSelectWithWatch";
 import { useState } from "react";
 import { useGetAllAcademicFacultiesQuery, useGetAllDepartmentsQuery } from "../../../redux/features/admin/academicManagement.api";
-import { dayOptions, monthOptions } from "../../../constants/global";
-import PHDatePicker from "../../../components/form/PHDatePicker";
+import { dayOptions } from "../../../constants/global";
 import PHTimePicker from "../../../components/form/PHTimePicker";
 import moment from "moment";
 
 
 const OfferCourse = () => {
     const [courseId, setCourseId] = useState('')
+    const [addOfferedCourse] = useAddOfferedCourseMutation()
     const { data: semesterRegistrations } = useGetAllRegisteredSemestersQuery(undefined)
     const { data: academicFaculties } = useGetAllAcademicFacultiesQuery(undefined)
     const { data: academicDepartments } = useGetAllDepartmentsQuery(undefined)
@@ -45,27 +45,26 @@ const OfferCourse = () => {
     }))
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
 
-        // const toastId = toast.loading('Creating...')
+        const toastId = toast.loading('Creating...')
 
-        // const courseData = {
-        //     ...data,
-        //     code: Number(data.code),
-        //     credits: Number(data.credits),
-        //     isDeleted: false,
-        //     preRequisiteCourses: data.preRequisiteCourses ? data.preRequisiteCourses.map((item: string) => ({ course: item, isDeleted: false })) : []
-        // }
-        // console.log(courseData);
-        // try {
-        //     const res = await addCourse(courseData) as TResponse<any>
-        //     if (res.error) {
-        //         toast.error(res.error.data.message, { id: toastId })
-        //     } else {
-        //         toast.success('Course created!', { id: toastId })
-        //     }
-        // }
-        // catch (err) {
-        //     toast.error('Something Went Wrong')
-        // }
+        const offeredCourseData = {
+            ...data,
+            section: Number(data.section),
+            maxCapacity: Number(data.maxCapacity),
+            startTime: moment(new Date(data.startTime)).format('LT').split(' ')[0],
+            endTime: moment(new Date(data.endTime)).format('LT').split(' ')[0]
+        }
+        try {
+            const res = await addOfferedCourse(offeredCourseData) as TResponse<any>
+            if (res.error) {
+                toast.error(res.error.data.message, { id: toastId })
+            } else {
+                toast.success('Offered course created!', { id: toastId })
+            }
+        }
+        catch (err) {
+            toast.error('Something Went Wrong')
+        }
     }
 
     return (
@@ -81,6 +80,7 @@ const OfferCourse = () => {
                     <PHInput type="text" label="Max Capacity" name="maxCapacity" />
                     <PHSelect label="Days" name="days" options={dayOptions} mode="multiple" />
                     <PHTimePicker label="Start Time" name="startTime" />
+                    <PHTimePicker label="End Time" name="endTime" />
                     <Button htmlType="submit" >Submit</Button>
                 </PHForm>
             </Col>
