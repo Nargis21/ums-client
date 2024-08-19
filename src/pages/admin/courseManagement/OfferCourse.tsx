@@ -21,7 +21,7 @@ const OfferCourse = () => {
     const { data: academicFaculties } = useGetAllAcademicFacultiesQuery(undefined)
     const { data: academicDepartments } = useGetAllDepartmentsQuery(undefined)
     const { data: courses } = useGetAllCoursesQuery(undefined)
-    const { data: courseFaculties } = useGetAllCourseFacultiesQuery(courseId)
+    const { data: courseFaculties } = useGetAllCourseFacultiesQuery(courseId, { skip: !courseId })
 
     const semesterRegistrationsOptions = semesterRegistrations?.data?.map((item) => ({
         value: item._id,
@@ -75,7 +75,7 @@ const OfferCourse = () => {
                     <PHSelect label="Academic Faculty" name="academicFaculty" options={academicFacultiesOptions} />
                     <PHSelect label="Academic Department" name="academicDepartment" options={academicDepartmentsOptions} />
                     <PHSelectWithWatch onValueChange={setCourseId} label="Course" name="course" options={coursesOptions} />
-                    <PHSelect disabled={!courseId} label="Faculty" name="faculty" options={courseFacultiesOptions} />
+                    <PHSelect disabled={!courseId} label="Faculty" mode="multiple" name="faculty" options={courseFacultiesOptions} />
                     <PHInput type="text" label="Section" name="section" />
                     <PHInput type="text" label="Max Capacity" name="maxCapacity" />
                     <PHSelect label="Days" name="days" options={dayOptions} mode="multiple" />
