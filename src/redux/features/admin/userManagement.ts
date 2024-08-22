@@ -19,6 +19,7 @@ const userManagementApi = baseApi.injectEndpoints({
           params: params,
         };
       },
+      providesTags: ["student"],
       transformResponse: (response: TResponseRedux<TStudent[]>) => {
         return {
           data: response.data,
@@ -38,6 +39,7 @@ const userManagementApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["student"],
     }),
     changePassword: builder.mutation({
       query: (data) => ({

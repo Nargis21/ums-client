@@ -51,9 +51,10 @@ const OfferCourse = () => {
             ...data,
             section: Number(data.section),
             maxCapacity: Number(data.maxCapacity),
-            startTime: moment(new Date(data.startTime)).format('LT').split(' ')[0],
-            endTime: moment(new Date(data.endTime)).format('LT').split(' ')[0]
+            startTime: moment(new Date(data.startTime)).format('HH:mm'),
+            endTime: moment(new Date(data.endTime)).format('HH:mm')
         }
+
         try {
             const res = await addOfferedCourse(offeredCourseData) as TResponse<any>
             if (res.error) {
@@ -75,7 +76,7 @@ const OfferCourse = () => {
                     <PHSelect label="Academic Faculty" name="academicFaculty" options={academicFacultiesOptions} />
                     <PHSelect label="Academic Department" name="academicDepartment" options={academicDepartmentsOptions} />
                     <PHSelectWithWatch onValueChange={setCourseId} label="Course" name="course" options={coursesOptions} />
-                    <PHSelect disabled={!courseId || fetchingFaculties} label="Faculty" mode="multiple" name="faculty" options={courseFacultiesOptions} />
+                    <PHSelect disabled={!courseId || fetchingFaculties} label="Faculty" name="faculty" options={courseFacultiesOptions} />
                     <PHInput type="text" label="Section" name="section" />
                     <PHInput type="text" label="Max Capacity" name="maxCapacity" />
                     <PHSelect label="Days" name="days" options={dayOptions} mode="multiple" />

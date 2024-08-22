@@ -23,7 +23,6 @@ const ProtectedRoute = ({ children, role }: TProtectedRouteProps) => {
         user = verifyToken(token)
     }
 
-    console.log(user);
     if (role !== undefined && role !== (user as TUser)?.role) {
         dispatch(logout())
         return <Navigate to="/login" replace={true} />

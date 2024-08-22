@@ -43,8 +43,7 @@ const studentDefaultValues = {
 
 const CreateStudent = () => {
 
-    const [addStudent, { data, error }] = useAddStudentMutation()
-    console.log({ data, error });
+    const [addStudent] = useAddStudentMutation()
     const { data: semesterData, isLoading: sIsLoading } = useGetAllSemestersQuery(undefined)
     const { data: departmentData, isLoading: dIsLoading } = useGetAllDepartmentsQuery(undefined)
 

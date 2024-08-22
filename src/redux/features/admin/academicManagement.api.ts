@@ -23,6 +23,7 @@ const academicManagementApi = baseApi.injectEndpoints({
           params: params,
         };
       },
+      providesTags: ["academicSemester"],
       transformResponse: (response: TResponseRedux<TAcademicSemester[]>) => {
         return {
           data: response.data,
@@ -36,12 +37,14 @@ const academicManagementApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["academicSemester"],
     }),
     getAllAcademicFaculties: builder.query({
       query: () => ({
         url: "/academic-faculties",
         method: "GET",
       }),
+      providesTags: ["academicFaculty"],
       transformResponse: (response: TResponseRedux<TAcademicFaculty[]>) => {
         return {
           data: response.data,
@@ -55,12 +58,14 @@ const academicManagementApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["academicFaculty"],
     }),
     getAllDepartments: builder.query({
       query: () => ({
         url: "/academic-departments",
         method: "GET",
       }),
+      providesTags: ["academicDepartment"],
       transformResponse: (response: TResponseRedux<TAcademicDepartment[]>) => {
         return {
           data: response.data,
@@ -74,6 +79,7 @@ const academicManagementApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["academicDepartment"],
     }),
   }),
 });
