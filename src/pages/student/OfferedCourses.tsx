@@ -1,5 +1,5 @@
 import { Button, Col, Row } from "antd";
-import { useGetAllStudentOfferedCoursesQuery } from "../../redux/features/student/studentCourseManagement";
+import { useEnrollCourseMutation, useGetAllStudentOfferedCoursesQuery } from "../../redux/features/student/studentCourseManagement";
 
 type TCourse = {
     [index: string]: any
@@ -7,7 +7,7 @@ type TCourse = {
 
 const OfferedCourses = () => {
     const { data: offeredCourseData } = useGetAllStudentOfferedCoursesQuery(undefined)
-
+    const [enrollCourse] = useEnrollCourseMutation()
     const singleObject = offeredCourseData?.data?.reduce((acc: TCourse, item) => {
         const key = item.course.title
         acc[key] = acc[key] || { courseTitle: key, sections: [] };
@@ -16,6 +16,15 @@ const OfferedCourses = () => {
     }, {})
 
     const modifiedData = Object.values(singleObject ? singleObject : {});
+
+    const handleEnroll = async (id: string) => {
+        const enrollData = {
+            offeredCourse: id
+        }
+
+        const res = await enrollCourse(enrollData)
+        console.log(res);
+    }
 
     return (
         <Row gutter={[0, 20]}>
@@ -42,7 +51,7 @@ const OfferedCourses = () => {
                                         </Col>
                                         <Col span={5}>Start Time: {section.startTime} </Col>
                                         <Col span={5}>End Time: {section.endTime} </Col>
-                                        <Button>
+                                        <Button onClick={() => handleEnroll(section._id)}>
                                             Enroll
                                         </Button>
                                     </Row>
